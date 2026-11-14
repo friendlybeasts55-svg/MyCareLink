@@ -1,0 +1,35 @@
+services:
+  - type: web
+    name: carelink
+    runtime: node
+    plan: starter            # a persistent disk needs a paid plan; the free plan erases data on every restart
+    buildCommand: echo "no build needed"
+    startCommand: npm start
+    healthCheckPath: /
+    disk:
+      name: carelink-data
+      mountPath: /data
+      sizeGB: 1
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: TRUST_PROXY
+        value: "1"
+      - key: DATA_DIR
+        value: /data
+      - key: SECRET
+        generateValue: true
+      - key: BASE_URL            # set to your site address, e.g. https://carelink.onrender.com
+        sync: false
+      - key: ADMIN_EMAIL
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: STRIPE_SECRET_KEY   # optional until you take payments
+        sync: false
+      - key: STRIPE_WEBHOOK_SECRET
+        sync: false
+      - key: RESEND_API_KEY      # optional, for real emails
+        sync: false
+      - key: MAIL_FROM
+        sync: false
